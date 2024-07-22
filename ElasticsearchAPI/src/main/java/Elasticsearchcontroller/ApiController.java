@@ -1,4 +1,4 @@
-package com.example.ElasticsearchAPI;
+package Elasticsearchcontroller;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import ElasticsearchItemDTO.Item;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -39,7 +42,7 @@ public class ApiController {
         String body = "";
 
         SearchResponse<Item> search = client.search(s -> s
-                        .index("Items")
+                        .index("items")
                         .query(q -> q
                                 .term(t -> t
                                         .field("_id")
