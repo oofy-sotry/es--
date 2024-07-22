@@ -1,4 +1,4 @@
-package Elasticsearchcontroller;
+package com.example.ElasticsearchAPI;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
@@ -15,29 +15,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import ElasticsearchItemDTO.Item;
-
+import com.example.ElasticsearchItemDTO.Item;
 import org.json.JSONObject;
-
 import java.io.IOException;
 
 @RestController
 public class ApiController {
-    // Create the low-level client
     RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
-
-    // Create the transport with a Jackson mapper
-    ElasticsearchTransport transport = new RestClientTransport(
-            restClient, new JacksonJsonpMapper());
-
-    // And create the API client
+    ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
     ElasticsearchClient client = new ElasticsearchClient(transport);
 
     @GetMapping(value = "/item")
-    public @ResponseBody
-    ResponseEntity<String> search(@RequestParam(name = "id") String id) throws IOException, JSONException {
-
+    public @ResponseBody ResponseEntity<String> search(@RequestParam(name = "id") String id) throws IOException, JSONException {
         String title = "";
         String body = "";
 
