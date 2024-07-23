@@ -8,7 +8,7 @@
         async function searchItem() {
             const id = document.getElementById('searchInput').value;
             try {
-                const response = await fetch(`/item?id=${id}`);
+                const response = await fetch(`/id_item?id=${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -22,7 +22,7 @@
     </script>
 </head>
 <body>
-    <h1>Item Search</h1>
+    <h1>Id Item Search</h1>
     <input type="text" id="searchInput" placeholder="Enter ID">
     <button onclick="searchItem()">Search</button>
     <div id="result"></div>
