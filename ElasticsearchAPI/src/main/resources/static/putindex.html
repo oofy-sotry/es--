@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script>
+		async function putData() {
+			const id = document.getElementById('putId').value;
+			const title = document.getElementById('putTitle').value;
+			const body = document.getElementById('putBody').value;
+
+			const data = {id: id, title: title, body: body};
+
+			try {
+				const response = await fetch(`/put_item?id=${id}`, {
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(data)
+				});
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const result = await response.json();
+				document.getElementById('result').innerText = `데이터가 정상적으로 삽입되었습니다.`;
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error);
+				document.getElementById('result').innerText = 'Error occurred while putting data';
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<h1>Put data</h1>
+	<input type="text" id="putId" placeholder="Enter ID">
+	<input type="text" id="putTitle" placeholder="Enter title">
+	<input type="text" id="putBody" placeholder="Enter body">
+	<button onclick="putData()">PUSH</button>
+	<div id="result"></div>
+</body>
+
+</html>
