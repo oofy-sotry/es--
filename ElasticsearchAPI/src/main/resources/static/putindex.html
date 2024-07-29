@@ -26,7 +26,6 @@
 					throw new Error('Network response was not ok');
 				}
 
-				const result = await response.json();
 				document.getElementById('result').innerText = `데이터가 정상적으로 삽입되었습니다.`;
 			} catch (error) {
 				console.error('There was a problem with the fetch operation:', error);

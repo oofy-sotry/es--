@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script>
+		async function deleteData() {
+			const id = document.getElementById('deleteId').value;
+
+			try {
+				const response = await fetch(`/delete_item?id=${id}`, {
+					method: 'DELETE',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				});
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const result = await response.json();
+				document.getElementById('result').innerText = `데이터가 정상적으로 삭제되었습니다.: ${JSON.stringify(result)}`;
+			} catch (error) {
+				console.error('There was a problem with the fetch operation:', error);
+				document.getElementById('result').innerText = 'Error occurred while deleting data';
+			}
+		}
+	</script>
+</head>
+
+<body>
+	<h1>Delete Data</h1>
+	<input type="text" id="deleteId" placeholder="Enter ID">
+	<button onclick="deleteData()">DELETE</button>
+	<div id="result"></div>
+</body>
+
+</html>
