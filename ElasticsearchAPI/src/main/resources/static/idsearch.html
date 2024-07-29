@@ -7,12 +7,19 @@
     <script>
         async function searchItem() {
             const id = document.getElementById('searchInput').value;
+			console.log('id: ');
+			console.log(id);
             try {
                 const response = await fetch(`/id_item?id=${id}`);
+				console.log('response: ');
+				console.log(response);
+				
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
+				console.log('data: ');
+				console.log(data);				
                 document.getElementById('result').innerText = `Title: ${data.title}\nBody: ${data.body}`;
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);

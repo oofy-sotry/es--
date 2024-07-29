@@ -8,12 +8,31 @@
 	<script>
 		async function putData() {
 			const id = document.getElementById('putId').value;
+			console.log('id:', id);
 			const title = document.getElementById('putTitle').value;
+			console.log('title:', title);
 			const body = document.getElementById('putBody').value;
+			console.log('body:', body);
 
-			const data = {id: id, title: title, body: body};
+			const data = { id: id, title: title, body: body };
+			console.log('data:', data);
 
 			try {
+				const checkResponse = await fetch(`/id_item?id=${id}`);
+				console.log('checkResponse:', checkResponse);
+
+				if (checkResponse.ok) {
+					const checkResult = await checkResponse.json();
+					console.log('checkResult:', checkResult);
+					console.log('checkResult.title:', checkResult.title);
+
+					if (checkResult.title != '') {
+						throw new Error('이미 있는 아이디입니다.');
+					}
+				} else {
+					throw new Error('ID 체크 중 문제가 발생했습니다.');
+				}
+
 				const response = await fetch(`/put_item?id=${id}`, {
 					method: 'PUT',
 					headers: {
@@ -21,18 +40,21 @@
 					},
 					body: JSON.stringify(data)
 				});
+				console.log('response:', response);
 
 				if (!response.ok) {
 					throw new Error('Network response was not ok');
 				}
 
-				document.getElementById('result').innerText = `데이터가 정상적으로 삽입되었습니다.`;
+				document.getElementById('result').innerText = '데이터가 정상적으로 삽입되었습니다.';
 			} catch (error) {
 				console.error('There was a problem with the fetch operation:', error);
+				alert(error.message); // 에러 메시지를 사용자에게 표시
 				document.getElementById('result').innerText = 'Error occurred while putting data';
 			}
 		}
 	</script>
+
 </head>
 
 <body>
