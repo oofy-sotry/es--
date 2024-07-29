@@ -20,22 +20,22 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 @RestController
-public class IDApiController {
+public class TitleApi {
     RestClient restClient = RestClient.builder(new HttpHost("localhost", 9200)).build();
     ElasticsearchTransport transport = new RestClientTransport(restClient, new JacksonJsonpMapper());
     ElasticsearchClient client = new ElasticsearchClient(transport);
 
-    @GetMapping(value = "/id_item")
-    public @ResponseBody ResponseEntity<String> search(@RequestParam(name = "id") String id) throws IOException, JSONException {
+    @GetMapping(value = "/title_item")
+    public @ResponseBody ResponseEntity<String> search(@RequestParam(name = "query") String query) throws IOException, JSONException {
         String title = "";
         String body = "";
 
         SearchResponse<Item> search = client.search(s -> s
                         .index("items")
                         .query(q -> q
-                                .term(t -> t
-                                        .field("_id")
-                                        .value(v -> v.stringValue(id))
+                                .match(t -> t
+                                        .field("title")
+                                        .query(query)
                                 )),
                 Item.class);
 
