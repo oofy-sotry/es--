@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Category</title>
+	<script>
+		async function createCategory() {
+		    const category = document.getElementById('category').value;
+		    const title = document.getElementById('title').value;
+		    const body = document.getElementById('body').value;
+		    const id = '1'; // 임의로 설정한 ID
+
+		    const data = { id: id, title: title, body: body };
+			console.log("data: ", data)
+
+		    try {
+		        // 인덱스 존재 여부 확인 요청
+		        const checkResponse = await fetch(`/getDocument/?indexname=${category}`, {
+		            method: 'GET',
+		            headers: {
+		                'Content-Type': 'application/json'
+		            }
+		        });
+
+		        if (checkResponse.status === 404) {
+		            // 인덱스가 존재하지 않는 경우, 새 인덱스와 문서를 생성
+		            const response = await fetch(`/put_${category}/_doc/${id}`, {
+		                method: 'PUT',
+		                headers: {
+		                    'Content-Type': 'application/json'
+		                },
+		                body: JSON.stringify(data)
+		            });
+
+		            if (response.ok) {
+		                document.getElementById('result').innerText = '인덱스가 정상적으로 생성되었습니다.';
+		            } else {
+		                const errorText = await response.text();
+		                throw new Error(errorText || '문서 생성 중 오류가 발생했습니다.');
+		            }
+					
+		        } else if (checkResponse.status === 200) {
+		            // 인덱스가 이미 존재하는 경우
+		            throw new Error('이미 존재하는 인덱스입니다.');
+		        } else {
+		            throw new Error('인덱스 조회 중 문제가 발생했습니다.');
+		        }
+		    } catch (error) {
+		        console.error('Fetch operation problem:', error);
+		        alert(error.message);
+		        document.getElementById('result').innerText = '데이터 처리 중 오류가 발생했습니다.';
+		    }
+		}
+	</script>
+
+</head>
+
+<body>
+	<h1>Create Category</h1>
+	<input type="text" id="category" placeholder="Enter Category">
+	<input type="text" id="title" placeholder="Enter Title">
+	<input type="text" id="body" placeholder="Enter Body">
+	<button onclick="createCategory()">PUSH</button>
+	<div id="result"></div>
+</body>
+
+</html>

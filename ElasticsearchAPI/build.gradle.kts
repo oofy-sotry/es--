@@ -41,12 +41,19 @@ dependencies {
     implementation("jakarta.json:jakarta.json-api:2.0.1")
 
     // JSON 라이브러리
-    implementation("org.json:json:20230227")
+    implementation("org.json:json:20210307")
 
     // Spring Data Elasticsearch - Spring Boot 버전과 호환되는 버전으로 수정
     implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+    
+    implementation ("org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.9")
+    implementation ("org.apache.httpcomponents:httpclient:4.5.13")
+    implementation ("co.elastic.clients:elasticsearch-java:8.10.2")
+    implementation ("co.elastic.clients:elasticsearch-java:8.11.1")
+    
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
